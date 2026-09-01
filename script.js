@@ -2,56 +2,87 @@
    COOKIES
 ========================================= */
 
-const cookieScreen = document.getElementById("cookieScreen");
-const acceptCookies = document.getElementById("acceptCookies");
-const rejectCookies = document.getElementById("rejectCookies");
+const cookieScreen =
+    document.getElementById("cookieScreen");
+
+const acceptCookies =
+    document.getElementById("acceptCookies");
+
+const rejectCookies =
+    document.getElementById("rejectCookies");
+
+
+const COOKIE_KEY =
+    "barbeariaXV_cookies";
 
 
 function closeCookies() {
 
-    cookieScreen.style.display = "none";
+    if (cookieScreen) {
+
+        cookieScreen.style.display = "none";
+
+    }
 
     localStorage.setItem(
-        "barbeariaXV_cookies",
+        COOKIE_KEY,
         "accepted"
     );
+
 }
 
 
 function showCookies() {
 
-    cookieScreen.style.display = "flex";
+    if (cookieScreen) {
+
+        cookieScreen.style.display = "flex";
+
+    }
+
 }
 
 
 /* Verifica se o visitante já escolheu */
 
 if (
-    localStorage.getItem("barbeariaXV_cookies")
+    localStorage.getItem(COOKIE_KEY)
 ) {
 
-    cookieScreen.style.display = "none";
+    closeCookies();
 
 } else {
 
-    cookieScreen.style.display = "flex";
+    showCookies();
 
 }
 
 
-/* ACEITAR */
+/* =========================================
+   ACEITAR COOKIES
+========================================= */
 
-acceptCookies.addEventListener(
+acceptCookies?.addEventListener(
     "click",
-    closeCookies
+    function () {
+
+        closeCookies();
+
+    }
 );
 
 
-/* RECUSAR */
+/* =========================================
+   RECUSAR COOKIES
+========================================= */
 
-rejectCookies.addEventListener(
+rejectCookies?.addEventListener(
     "click",
-    closeCookies
+    function () {
+
+        closeCookies();
+
+    }
 );
 
 
@@ -76,29 +107,43 @@ function openPrivacy(event) {
 
     event.preventDefault();
 
-    privacyModal.style.display = "flex";
+    if (privacyModal) {
+
+        privacyModal.style.display = "flex";
+
+        document.body.style.overflow = "hidden";
+
+    }
+
 }
 
 
 function closePrivacyModal() {
 
-    privacyModal.style.display = "none";
+    if (privacyModal) {
+
+        privacyModal.style.display = "none";
+
+        document.body.style.overflow = "";
+
+    }
+
 }
 
 
-privacyButton.addEventListener(
+privacyButton?.addEventListener(
     "click",
     openPrivacy
 );
 
 
-cookiePrivacy.addEventListener(
+cookiePrivacy?.addEventListener(
     "click",
     openPrivacy
 );
 
 
-closePrivacy.addEventListener(
+closePrivacy?.addEventListener(
     "click",
     closePrivacyModal
 );
@@ -106,11 +151,29 @@ closePrivacy.addEventListener(
 
 /* Fecha clicando fora */
 
-privacyModal.addEventListener(
+privacyModal?.addEventListener(
     "click",
-    function(event) {
+    function (event) {
 
-        if (event.target === privacyModal) {
+        if (
+            event.target === privacyModal
+        ) {
+
+            closePrivacyModal();
+
+        }
+
+    }
+);
+
+
+/* Fecha com ESC */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape") {
 
             closePrivacyModal();
 
@@ -124,24 +187,77 @@ privacyModal.addEventListener(
    HEADER AO ROLAR
 ========================================= */
 
+const header =
+    document.querySelector(".header");
+
+
 window.addEventListener(
     "scroll",
-    function() {
+    function () {
 
-        const header =
-            document.querySelector(".header");
+        if (!header) return;
+
 
         if (window.scrollY > 50) {
 
             header.style.background =
                 "rgba(8,7,6,.98)";
 
+            header.style.boxShadow =
+                "0 8px 30px rgba(0,0,0,.25)";
+
         } else {
 
             header.style.background =
                 "rgba(8,7,6,.94)";
 
+            header.style.boxShadow =
+                "none";
+
         }
 
     }
+    const cookieScreen = document.getElementById("cookieScreen");
+const acceptCookies = document.getElementById("acceptCookies");
+const rejectCookies = document.getElementById("rejectCookies");
+
+
+// MOSTRA O AVISO
+if (cookieScreen) {
+    cookieScreen.style.display = "flex";
+}
+
+
+// ACEITAR
+if (acceptCookies) {
+
+    acceptCookies.addEventListener("click", function () {
+
+        cookieScreen.style.display = "none";
+
+        localStorage.setItem(
+            "barbeariaXV_cookies",
+            "accepted"
+        );
+
+    });
+
+}
+
+
+// RECUSAR
+if (rejectCookies) {
+
+    rejectCookies.addEventListener("click", function () {
+
+        cookieScreen.style.display = "none";
+
+        localStorage.setItem(
+            "barbeariaXV_cookies",
+            "rejected"
+        );
+
+    });
+
+}
 );
